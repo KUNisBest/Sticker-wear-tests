@@ -61,6 +61,12 @@ def test_password_login_wrong_password():
     assert "密码错误" in res["message"]
 
 
+def test_password_short():
+    """密码少于 6 位:被后端格式校验拒绝,且提示"密码至少6位"""
+    with pytest.raises(AssertionError, match="密码至少6位"):
+        trpc_mutation("auth.loginPassword", {"phone": ADMIN_PHONE, "password": "12345"})
+
+
 # ---------- 当前用户 ----------
 
 def test_me_without_token():
