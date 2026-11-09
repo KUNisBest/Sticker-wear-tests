@@ -41,7 +41,7 @@ def test_full_sms_login_flow():
     assert token and len(token) > 20
 
 def test_code_single_use():
-    """密码不能重复使用"""
+    """验证码不能重复使用"""
     phone1=new_phone()
     res=trpc_mutation("auth.sendCode",{"phone": phone1})
     code1=res["code"]
