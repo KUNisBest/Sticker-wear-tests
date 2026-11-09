@@ -42,6 +42,21 @@ def test_create_order_requires_login():
     assert "登录" in res["message"]
 
 
+def test_create_Lack_receiver():
+    """没提供收货人"""
+    phone,token=register_user()
+    with pytest.raises(AssertionError,match="请填写收货人"):
+        trpc_mutation(
+            "order.create",
+            {
+                "shippingName": "",
+                "items": [{"productId": 1, "quantity": 1}],
+                "shippingPhone": phone,
+                "shippingAddress": "x",
+                    },token
+            )
+
+
 def test_create_order_decreases_stock():
     """下单成功:库存精确 -1"""
     product = _pick_product()
